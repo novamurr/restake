@@ -742,20 +742,37 @@ class Delegations extends React.Component {
               </tr>
             </thead>
             <tbody>
-              {this.orderedOperators().length > 0 &&
-                this.orderedOperators().map((operator) => {
+            {this.orderedOperators().length > 0 &&
+              this.orderedOperators()
+                .filter((operator) => {
+                  return operator.moniker === 'MMS';
+                })
+                .map((operator) => {
+                  console.log(operator.moniker);
                   const delegation =
                     this.props.delegations &&
                     this.props.delegations[operator.address];
                   return this.renderValidator(operator.address, delegation);
                 })}
-              {this.regularDelegations().length > 0 &&
-                this.regularDelegations().map((delegation) => {
-                  return this.renderValidator(
-                    delegation.delegation.validator_address,
-                    delegation
-                  );
+            {this.orderedOperators().length > 0 &&
+              this.orderedOperators()
+                .filter((operator) => {
+                  return operator.moniker !== 'MMS';
+                })
+                .map((operator) => {
+                  console.log(operator.moniker);
+                  const delegation =
+                    this.props.delegations &&
+                    this.props.delegations[operator.address];
+                  return this.renderValidator(operator.address, delegation);
                 })}
+            {this.regularDelegations().length > 0 &&
+              this.regularDelegations().map((delegation) => {
+                return this.renderValidator(
+                  delegation.delegation.validator_address,
+                  delegation,
+                );
+              })}
             </tbody>
           </Table>
         )}
